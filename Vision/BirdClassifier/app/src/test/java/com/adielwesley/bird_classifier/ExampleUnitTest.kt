@@ -1,4 +1,4 @@
-package com.adielwesley.bird_recognizer
+package com.adielwesley.bird_classifier
 
 import org.junit.Test
 

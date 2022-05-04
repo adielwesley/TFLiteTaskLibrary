@@ -1,11 +1,11 @@
-package com.adielwesley.bird_recognizer
+package com.adielwesley.bird_classifier
 
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
-import com.adielwesley.bird_recognizer.databinding.ActivityMainBinding
+import com.adielwesley.bird_classifier.databinding.ActivityMainBinding
 import org.tensorflow.lite.support.image.TensorImage
 import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.loadButton.setOnClickListener { onLoadButtonClicked() }
-        binding.recognizeButton.setOnClickListener { onRecognizeButtonClicked() }
+        binding.classifyButton.setOnClickListener { onClassifyButtonClicked() }
 
         initializeImageClassifier()
     }
@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         getContent.launch("image/*")
     }
 
-    private fun onRecognizeButtonClicked() {
+    private fun onClassifyButtonClicked() {
         // handle input
         val image = TensorImage.fromBitmap(binding.imageView.drawable.toBitmap())
 
@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         val classifications = imageClassifier.classify(image)
 
         // handle output
-        Log.d(TAG, "onRecognizeButtonClicked: hasResult = ${classifications.isNotEmpty()}")
+        Log.d(TAG, "onClassifyButtonClicked: hasResult = ${classifications.isNotEmpty()}")
         classifications.firstOrNull()?.categories?.firstOrNull()?.displayName?.let { birdName ->
             binding.textView.text = birdName
         }
