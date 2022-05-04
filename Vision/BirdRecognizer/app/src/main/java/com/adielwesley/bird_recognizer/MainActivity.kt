@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.graphics.drawable.toBitmap
 import com.adielwesley.bird_recognizer.databinding.ActivityMainBinding
 import org.tensorflow.lite.support.image.TensorImage
+import org.tensorflow.lite.task.core.BaseOptions
 import org.tensorflow.lite.task.vision.classifier.ImageClassifier
 
 class MainActivity : AppCompatActivity() {
@@ -45,9 +46,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeImageClassifier() {
-        imageClassifier = ImageClassifier.createFromFile(
+        val baseOptions = BaseOptions.builder().useGpu().build()
+
+        val options = ImageClassifier.ImageClassifierOptions.builder()
+            .setBaseOptions(baseOptions)
+            .setMaxResults(1)
+            .build()
+
+        imageClassifier = ImageClassifier.createFromFileAndOptions(
             this,
-            "lite-model_aiy_vision_classifier_birds_V1_3.tflite"
+            "lite-model_aiy_vision_classifier_birds_V1_3.tflite",
+            options
         )
     }
 
